@@ -23,6 +23,7 @@ async function run() {
     await client.connect();
     const database = client.db("light-house");
     const lampsCollection = database.collection("lamps");
+    const cartsCollection = database.collection("carts");
 
     // found all lamps
     app.get("/lamps", async (req, res) => {
@@ -41,8 +42,8 @@ async function run() {
 
     // add mycart
     app.post("/carts", async (req, res) => {
-      const myCart = req.body;
-      const allCart = await lampsCollection.insertOne(myCart);
+      const cart = req.body;
+      const allCart = await cartsCollection.insertOne(cart);
       res.json(allCart);
     });
   } finally {
