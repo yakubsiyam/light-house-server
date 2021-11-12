@@ -24,10 +24,26 @@ async function run() {
     const database = client.db("light-house");
     const lampsCollection = database.collection("lamps");
 
+    // found all lamps
     app.get("/lamps", async (req, res) => {
       const cursor = lampsCollection.find({});
       const lamps = await cursor.toArray();
       res.send(lamps);
+    });
+
+    // find single lamp
+    app.get("/lamps/:lampId", async (req, res) => {
+      const id = req.params.lampId;
+      const query = { _id: ObjectId(id) };
+      const singleLamp = await lampsCollection.findOne(query);
+      res.send(singleLamp);
+    });
+
+    // add mycart
+    app.post("/carts", async (req, res) => {
+      const myCart = req.body;
+      const allCart = await lampsCollection.insertOne(myCart);
+      res.json(allCart);
     });
   } finally {
     // await client.close();
