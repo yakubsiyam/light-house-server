@@ -56,11 +56,13 @@ async function run() {
 
     // my cart data filtering
     app.get("/carts", async (req, res) => {
-      let query = {};
+      // let query = {};
+      // const email = req.query.email;
+      // if (email) {
+      //   query = { email: email };
+      // }
       const email = req.query.email;
-      if (email) {
-        query = { email: email };
-      }
+      query = { email: email };
       const cursor = cartsCollection.find(query);
       const myCarts = await cursor.toArray();
       res.send(myCarts);
