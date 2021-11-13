@@ -53,6 +53,18 @@ async function run() {
       const allCart = await cartsCollection.insertOne(cart);
       res.json(allCart);
     });
+
+    // my cart data filtering
+    app.get("/carts", async (req, res) => {
+      let query = {};
+      const email = req.query.email;
+      if (email) {
+        query = { email: email };
+      }
+      const cursor = cartsCollection.find(query);
+      const myCarts = await cursor.toArray();
+      res.send(myCarts);
+    });
   } finally {
     // await client.close();
   }
