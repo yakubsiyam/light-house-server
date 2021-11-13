@@ -89,18 +89,18 @@ async function run() {
       res.json(newAdmin);
     });
 
-    // POST API for create single lamp data
-    app.post("/users", async (req, res) => {
-      const lamp = req.body;
-      const singleLamp = await lampsCollection.insertOne(lamp);
-      res.json(singleLamp);
-    });
-
     //post a review
     app.post("/reviews", async (req, res) => {
       const singleReview = req.body;
       const review = await reviewsCollection.insertOne(singleReview);
       res.json(review);
+    });
+
+    // POST API for create single lamp data
+    app.post("/users", async (req, res) => {
+      const lamp = req.body;
+      const singleLamp = await lampsCollection.insertOne(lamp);
+      res.json(singleLamp);
     });
 
     // update admin
