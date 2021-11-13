@@ -27,6 +27,7 @@ async function run() {
     const database = client.db("light-house");
     const lampsCollection = database.collection("lamps");
     const cartsCollection = database.collection("carts");
+    const reviewsCollection = database.collection("reviews");
 
     // found all lamps
     app.get("/lamps", async (req, res) => {
@@ -68,6 +69,13 @@ async function run() {
       const cursor = cartsCollection.find(query);
       const myCarts = await cursor.toArray();
       res.send(myCarts);
+    });
+
+    // found all reviews
+    app.get("/reviews", async (req, res) => {
+      const cursor = reviewsCollection.find({});
+      const reviews = await cursor.toArray();
+      res.send(reviews);
     });
 
     //update status data
