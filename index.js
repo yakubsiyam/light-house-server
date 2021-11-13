@@ -62,10 +62,20 @@ async function run() {
       //   query = { email: email };
       // }
       const email = req.query.email;
-      query = { email: email };
+      console.log(email);
+      const query = { email: email };
+      console.log(query);
       const cursor = cartsCollection.find(query);
       const myCarts = await cursor.toArray();
       res.send(myCarts);
+    });
+
+    // delete my cart lamps
+    app.delete("/carts/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const deleteLamps = await cartsCollection.deleteOne(query);
+      res.send(deleteLamps);
     });
   } finally {
     // await client.close();
