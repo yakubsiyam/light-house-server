@@ -51,10 +51,10 @@ async function run() {
       res.json(allCart);
     });
 
-    // POST API for create single destination data
+    // POST API for create single lamp data
     app.post("/lamps", async (req, res) => {
       const lamp = req.body;
-      const singleLamp = await userInfoCollection.insertOne(lamp);
+      const singleLamp = await lampsCollection.insertOne(lamp);
       res.json(singleLamp);
     });
 
