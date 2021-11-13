@@ -25,9 +25,11 @@ async function run() {
   try {
     await client.connect();
     const database = client.db("light-house");
+
     const lampsCollection = database.collection("lamps");
     const cartsCollection = database.collection("carts");
     const reviewsCollection = database.collection("reviews");
+    const usersCollection = database.collection("users");
 
     // found all lamps
     app.get("/lamps", async (req, res) => {
@@ -44,18 +46,20 @@ async function run() {
       res.send(singleLamp);
     });
 
+    // finding admin
+    app.get("/users", async (req, res) => {
+      const email = req.query.email;
+      const query = { email: user.email };
+      const cursor = usersCollection.find(query);
+      const admin = await cursor.toArray();
+      res.send(admin);
+    });
+
     // add mycart
     app.post("/carts", async (req, res) => {
       const cart = req.body;
       const allCart = await cartsCollection.insertOne(cart);
       res.json(allCart);
-    });
-
-    // POST API for create single lamp data
-    app.post("/lamps", async (req, res) => {
-      const lamp = req.body;
-      const singleLamp = await lampsCollection.insertOne(lamp);
-      res.json(singleLamp);
     });
 
     // my cart data filtering
@@ -78,11 +82,34 @@ async function run() {
       res.send(reviews);
     });
 
+    // POST API for create admin
+    app.post("/lamps", async (req, res) => {
+      const admin = req.body;
+      const newAdmin = await lampsCollection.insertOne(admin);
+      res.json(newAdmin);
+    });
+
+    // POST API for create single lamp data
+    app.post("/users", async (req, res) => {
+      const lamp = req.body;
+      const singleLamp = await lampsCollection.insertOne(lamp);
+      res.json(singleLamp);
+    });
+
     //post a review
     app.post("/reviews", async (req, res) => {
       const singleReview = req.body;
       const review = await reviewsCollection.insertOne(singleReview);
       res.json(review);
+    });
+
+    // update admin
+    app.put("/users/admin", async (req, res) => {
+      const admin = req.body;
+      const filter = { email: user.email };
+      const updateDoc = { $set: { role: "admin" } };
+      const result = await usersCollection.updateOne(filter, updateDoc);
+      res.json(result);
     });
 
     //update status data
