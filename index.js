@@ -44,18 +44,18 @@ async function run() {
       res.send(singleLamp);
     });
 
-    // found my carts
-    // app.get("/carts", async (req, res) => {
-    //   const cursor = cartsCollection.find({});
-    //   const carts = await cursor.toArray();
-    //   res.send(carts);
-    // });
-
     // add mycart
     app.post("/carts", async (req, res) => {
       const cart = req.body;
       const allCart = await cartsCollection.insertOne(cart);
       res.json(allCart);
+    });
+
+    // POST API for create single destination data
+    app.post("/lamps", async (req, res) => {
+      const lamp = req.body;
+      const singleLamp = await userInfoCollection.insertOne(lamp);
+      res.json(singleLamp);
     });
 
     // my cart data filtering
