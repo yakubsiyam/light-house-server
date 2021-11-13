@@ -78,6 +78,13 @@ async function run() {
       res.send(reviews);
     });
 
+    //post a review
+    app.post("/reviews", async (req, res) => {
+      const singleReview = req.body;
+      const review = await reviewsCollection.insertOne(singleReview);
+      res.json(review);
+    });
+
     //update status data
     app.put("/carts/:id", async (req, res) => {
       const id = req.params.id;
