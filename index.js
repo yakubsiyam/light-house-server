@@ -54,6 +54,14 @@ async function run() {
       res.send(singleLamp);
     });
 
+    // delete my cart lamps
+    app.delete("/lamps/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const deleteLamps = await lampsCollection.deleteOne(query);
+      res.send(deleteLamps);
+    });
+
     //cartsDB
     // add mycart
     app.post("/carts", async (req, res) => {
